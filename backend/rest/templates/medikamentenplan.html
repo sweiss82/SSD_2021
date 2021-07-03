@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+{% block content %}
+<div class="mdc-tab-bar" role="tablist" >
+    <div class="mdc-tab-scroller" >
+        <div class="mdc-tab-scroller__scroll-area" >
+            <div class="mdc-tab-scroller__scroll-content" >
+                <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0" margin-left="20%">
+          <span class="mdc-tab__content">
+            <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
+            <span class="mdc-tab__text-label">Persönliche Daten</span>
+          </span>
+                    <span class="mdc-tab-indicator mdc-tab-indicator--active">
+            <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+          </span>
+                    <span class="mdc-tab__ripple"></span>
+                </button>
+                <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
+          <span class="mdc-tab__content">
+            <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
+            <span class="mdc-tab__text-label">Patientenakte</span>
+          </span>
+                    <span class="mdc-tab-indicator mdc-tab-indicator--active">
+            <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+          </span>
+                    <span class="mdc-tab__ripple"></span>
+                </button>
+                <form>
+                <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0"
+                        type="submit" formaction="{% url 'medikamentenplanDetails' %}">
+          <span class="mdc-tab__content">
+            <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
+            <span class="mdc-tab__text-label">Medikamentenplan</span>
+          </span>
+                    <span class="mdc-tab-indicator mdc-tab-indicator--active">
+            <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+          </span>
+                    <span class="mdc-tab__ripple"></span>
+                </button>
+                </form>
+                <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
+          <span class="mdc-tab__content">
+            <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
+            <span class="mdc-tab__text-label">Bestand</span>
+          </span>
+                    <span class="mdc-tab-indicator mdc-tab-indicator--active">
+            <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+          </span>
+                    <span class="mdc-tab__ripple"></span>
+                </button>
+                <button class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0">
+          <span class="mdc-tab__content">
+            <span class="mdc-tab__icon material-icons" aria-hidden="true">favorite</span>
+            <span class="mdc-tab__text-label">Bestellungen</span>
+          </span>
+                    <span class="mdc-tab-indicator mdc-tab-indicator--active">
+            <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+          </span>
+                    <span class="mdc-tab__ripple"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

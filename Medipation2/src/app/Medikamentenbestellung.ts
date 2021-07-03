@@ -1,5 +1,5 @@
 export class Medikamentenbestellung {
-  id: number;
+  id?: number;
   medikamentenname: string;
   menge: string;
 }

@@ -10,6 +10,7 @@ import { MedikamentenplanComponent } from './medikamentenplan/medikamentenplan.c
 import { DatenubersichtComponent } from './datenubersicht/datenubersicht.component';
 import { MedikamentenanfrageComponent } from './medikamentenanfrage/medikamentenanfrage.component';
 import { MedikamentenanfragenOffenComponent } from './medikamentenanfragen-offen/medikamentenanfragen-offen.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MedikamentenanfragenOffenComponent } from './medikamentenanfragen-offen
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

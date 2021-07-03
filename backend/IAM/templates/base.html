@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Medipation</title>
+    <base href="/">
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+</head>
+<body>
+
+<header >
+    <div class="mdc-top-app-bar">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button" aria-label="Open navigation menu">menu</button>
+                <span class="mdc-top-app-bar__title">Medipation</span>
+            </section>
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start" role="toolbar">
+                <button class="mdc-button "><span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label">Überblick</span></button>
+                <button class="mdc-button "><span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label">Regeln</span></button>
+                <button class="mdc-button "><span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label">Anfragen</span></button>
+                <button class="mdc-button "><span class="mdc-button__ripple"></span>
+                    <span class="mdc-button__label">Logout</span></button>
+
+            </section>
+        </div>
+    </div>
+</header>
+<main class="mdc-top-app-bar--fixed-adjust">
+    {% block content %}{% endblock content %}
+</main>
+</body>
+</html>

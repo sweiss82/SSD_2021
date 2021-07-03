@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+{% block content %}
+<form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    <div>
+        <label class="mdc-text-field mdc-text-field--filled">
+            <span class="mdc-text-field__ripple"></span>
+            <span class="mdc-floating-label" >Medikamentenname</span>
+            <input class="mdc-text-field__input" type="text" id="medikamentenbestellung"  aria-labelledby="my-label-id">
+            <span class="mdc-line-ripple"></span>
+        </label>
+    </div>
+    <div>
+        <label class="mdc-text-field mdc-text-field--filled">
+            <span class="mdc-text-field__ripple"></span>
+            <span class="mdc-floating-label" >Menge</span>
+            <input class="mdc-text-field__input"  type="text"  id="menge" aria-labelledby="my-label-id">
+            <span class="mdc-line-ripple"></span>
+        </label>
+    </div>
+    <div>
+        <button class="mdc-button "><span class="mdc-button__ripple" ></span>
+            <span class="mdc-button__label_form" formaction="{% url 'medikament bestellen' %}">Bestellen</span></button>
+    </div>
+</form>
+{% endblock content %}
+
