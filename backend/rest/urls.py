@@ -7,5 +7,7 @@ urlpatterns = [
     path('medikamentenplan/', views.medikamentenplanEinsehen, name='medikamentenbestellung'),
     path('medikamentenplanDetails/', views.medikamentenplanDetailsEinsehen, name='medikamentenplanDetails'),
     path('medikamentenanfrageOffen/', views.medikamentenanfrageOffen, name='medikamentenanfrageOffen'),
+    path('login/', views.Einloggen, name='login'),
+    path('krankenkasseLogin/', views.krankenkasseLogin, name='krankenkasseLogin'),
     path('', views.medikamentBestellen),
 ]

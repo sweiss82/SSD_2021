@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="mdc-form-field">
+
+    <div><label>Role</label></div>
+    <div class="mdc-radio">
+            <input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios" checked>
+            <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+            </div>
+            <div class="mdc-radio__ripple"></div>
+        </div>
+        <label for="radio-1">Arzt</label>
+    </div>
+
+        <div class="mdc-radio">
+            <input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios" checked>
+            <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+            </div>
+            <div class="mdc-radio__ripple"></div>
+        </div>
+        <label for="radio-1">Patient</label>
+
+<div class="mdc-radio">
+    <input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios" checked>
+    <div class="mdc-radio__background">
+        <div class="mdc-radio__outer-circle"></div>
+        <div class="mdc-radio__inner-circle"></div>
+    </div>
+    <div class="mdc-radio__ripple"></div>
+</div>
+<label for="radio-1">Aptoheker</label>
+<div class="mdc-form-field">
+
+</div>
+<div class="mdc-form-field">
+
+</div>
+<h2>lofin</h2>
+
+<div class="mdc-menu mdc-menu-surface">
+    <ul class="mdc-list" role="menu" aria-hidden="false" aria-orientation="vertical">
+        <li class="mdc-list-item" role="menuitem">
+            <span class="mdc-list-item__ripple"></span>
+            <span class="mdc-list-item__text">A Menu Item</span>
+        </li>
+        <li class="mdc-list-item" role="menuitem">
+            <span class="mdc-list-item__ripple"></span>
+            <span class="mdc-list-item__text">Another Menu Item</span>
+        </li>
+    </ul>
+</div>
+
+<form action="/krankenkasseLogin/" method="GET">
+<button class="mdc-button " type="submit" onclick="location.href='{% url 'krankenkasseLogin' %}'"><span class="mdc-button__ripple"></span>
+    <span class="mdc-button__label">Anfragen</span></button>
+</form>
+{% endblock content %}

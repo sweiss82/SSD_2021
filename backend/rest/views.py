@@ -20,6 +20,8 @@ def medikamentBestellen(request):
         bestellung = Medikamentenbestellung(medikamentenname = medikamentenbezeichnung, menge=menge)
         bestellung.save()
         return HttpResponse("<h2>Speichern erfolgreich!</h2>")
+    else:
+        return HttpResponse("<h2>Speichern2 erfolgreich!</h2>")
 
 def medikamentenplanEinsehen(request):
     if request.method == 'GET':
@@ -32,3 +34,11 @@ def medikamentenplanDetailsEinsehen(request):
 def medikamentenanfrageOffen(request):
     if request.method == 'GET':
         return render(request, 'medikamentenanfrage_offen.html')
+
+def Einloggen(request):
+    if request.method == 'GET':
+        return render(request, 'Login.html')
+
+def krankenkasseLogin(request):
+    if request.method == 'GET':
+        return render(request, 'Krankenkasse_Login.html')

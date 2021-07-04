@@ -13,11 +13,11 @@ const httpOptions = {
       //'Content-Type': 'application/json',
       'Accept': 'application/json',
       'cache-control': 'no-cache',
-    //'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': '*',
     }
   )
 };
-const restServiceUrl = 'http://localhost:8000/api';
+const restServiceUrl = 'http://localhost:8000';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class MedikamentenbestellungService {
   constructor(private http: HttpClient, private router: Router) { }
 
   createMedikamentenbestellung(medikamentenbestellung: Medikamentenbestellung): Observable<Medikamentenbestellung>{
-    const url = `${restServiceUrl}/medikamentenbestellung`;
+    const url = `${restServiceUrl}/medikamentenbestellung/`;
     console.log('called rest-backend_2');
     return this.http.post<Medikamentenbestellung>(url, medikamentenbestellung, httpOptions);
     //return this.http.get<Medikamentenbestellung>(url, medikamentenbestellung, httpOptions);
