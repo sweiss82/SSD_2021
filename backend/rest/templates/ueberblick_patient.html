@@ -1,0 +1,23 @@
+{% extends 'base_patient.html' %}
+{% load static %}
+
+
+{% block content %}
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-per-Daten-tab" data-toggle="tab" href="#nav-per-Daten" role="tab" aria-controls="nav-per-Daten" aria-selected="true">Persönliche Daten</a>
+        <a class="nav-item nav-link" id="nav-med-plan-tab" data-toggle="tab" href="#nav-med-plan" role="tab" aria-controls="nav-med-plan" aria-selected="false">Medikamentenplan</a>
+        <a class="nav-item nav-link" id="nav-bestand-tab" data-toggle="tab" href="#nav-bestand" role="tab" aria-controls="nav-bestand" aria-selected="true">Bestand</a>
+        <a class="nav-item nav-link" id="nav-bestellungen-tab" data-toggle="tab" href="#nav-bestellungen" role="tab" aria-controls="nav-bestellungen" aria-selected="true">Bestellungen</a>
+        <a class="nav-item nav-link" id="nav-akte-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Patientenakte</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-per-Daten" role="tabpanel" aria-labelledby="nav-per-Daten-tab">tbd</div>
+    <div class="tab-pane fade" id="nav-med-plan" role="tabpanel" aria-labelledby="nav-med-plan-tab">{% include 'medikamentenplan.html' %}</div>
+    <div class="tab-pane fade" id="nav-bestand" role="tabpanel" aria-labelledby="nav-bestand-tab">tbd2</div>
+    <div class="tab-pane fade" id="nav-bestellungen" role="tabpanel" aria-labelledby="nav-bestellungen-tab">{% include 'medikamentBestellen.html' %}</div>
+    <div class="tab-pane fade" id="nav-patientenakte" role="tabpanel" aria-labelledby="nav-akte-tab">tbd3</div>
+
+</div>
+{% endblock content %}

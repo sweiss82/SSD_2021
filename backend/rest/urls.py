@@ -9,5 +9,7 @@ urlpatterns = [
     path('medikamentenanfrageOffen/', views.medikamentenanfrageOffen, name='medikamentenanfrageOffen'),
     path('login/', views.Einloggen, name='login'),
     path('krankenkasseLogin/', views.krankenkasseLogin, name='krankenkasseLogin'),
+    path('arzt_ueberblick/', views.ueberblick_arzt, name='views.ueberblick_arzt'),
+    path('patient_ueberblick/', views.ueberblick_patient, name='views.ueberblick_patient'),
     path('', views.medikamentBestellen),
 ]

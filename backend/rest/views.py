@@ -37,8 +37,25 @@ def medikamentenanfrageOffen(request):
 
 def Einloggen(request):
     if request.method == 'GET':
+        print("caled login")
+        return render(request, 'Login.html')
+    else:
         return render(request, 'Login.html')
 
 def krankenkasseLogin(request):
     if request.method == 'GET':
         return render(request, 'Krankenkasse_Login.html')
+
+def persoenlicheDatenArzt(request):
+    if request.method == 'GET':
+        return render(request, 'persoenlicheDaten_arzt.html')
+
+def patientenliste_arzt(request):
+        return render(request, 'patientenliste_arzt.html')
+
+def ueberblick_arzt(request):
+        return render(request, 'ueberblick_arzt.html')
+
+def ueberblick_patient(request):
+        return render(request, 'ueberblick_patient.html')
+
