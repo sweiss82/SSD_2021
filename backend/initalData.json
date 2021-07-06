@@ -1,0 +1,13 @@
+[{ 
+ "model":"rest.Medikamentenplan_Medikamente",
+ "pk":"1",
+ "fields": 
+	{"medikamentenplan": "1", "medikament":"1", "wochentag": "Montag", "uhrzeit": "12h"}
+},
+{
+ "model":"rest.Medikamentenplan",
+ "pk":"1",
+ "fields": 
+	{"patient": "1"}
+ }
+]

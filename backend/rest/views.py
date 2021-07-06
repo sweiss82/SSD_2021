@@ -24,8 +24,13 @@ def medikamentBestellen(request):
         return HttpResponse("<h2>Speichern2 erfolgreich!</h2>")
 
 def medikamentenplanEinsehen(request):
+    user_id=123
     if request.method == 'GET':
-        return render(request, 'medikamentenplan.html', )
+        try:
+            medikamentenplan = Medikamentenplan.objects.get(patient=1)
+            return render(request, 'medikamentenplan.html', {'medikamentenplan': medikamentenplan} )
+        except Medikamentenplan.DoesNotExist:
+            return HttpResponse("<h2>keine Medikamentenplan vorhanden!</h2>")
 
 def medikamentenplanDetailsEinsehen(request):
     if request.method == 'GET':
@@ -45,6 +50,8 @@ def Einloggen(request):
 def krankenkasseLogin(request):
     if request.method == 'GET':
         return render(request, 'Krankenkasse_Login.html')
+    else:
+         return render(request, 'Krankenkasse_Login.html')
 
 def persoenlicheDatenArzt(request):
     if request.method == 'GET':

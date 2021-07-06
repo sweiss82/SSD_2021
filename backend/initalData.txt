@@ -1,0 +1,15 @@
+[
+{
+ "model":"rest.patient",
+ "pk": "1",
+ "fields": 
+	{ "vorname": "Herbert", nachname: "Meier", "strasse": "Ringstrasse"}
+ }
+
+{
+"models": "Medikament",
+"pk="1",
+"fields":{
+	"medikamentenname": "Ibuprophen"}
+}
+]
