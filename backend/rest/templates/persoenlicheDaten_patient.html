@@ -1,0 +1,45 @@
+
+{% load static %}
+
+{% block content %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Attribut</th>
+        <th scope="col">Wert</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Vorname</td>
+        <td>{{patient.vorname}}</td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td>{{patient.nachname}}</td>
+    </tr>
+    <tr>
+        <td>Strasse</td>
+        <td>{{patient.strasse}}</td>
+    </tr>
+    <tr>
+        <td>Nr.</td>
+        <td>{{patient.nr}}</td>
+    </tr>
+    <tr>
+        <td>PLZ</td>
+        <td>{{patient.plz}}</td>
+    </tr>
+    <tr>
+        <td>Wohnort</td>
+        <td>{{patient.ort}}</td>
+    </tr>
+    </tbody>
+</table>
+
+
+{% for p in patienten %}
+<li>{{p.id}}</li>
+{% endfor %}
+
+{% endblock content %}

@@ -1,13 +1,10 @@
-[{ 
- "model":"rest.Medikamentenplan_Medikamente",
- "pk":"1",
- "fields": 
-	{"medikamentenplan": "1", "medikament":"1", "wochentag": "Montag", "uhrzeit": "12h"}
+[
+{
+ "model":"rest.Arzt",
+ "fields": {"vorname": "Martin", "nachname": "Kirschner", "praxisname": "Dr. Kirschner Medizin", "strasse": "Landstrasse", "nr": "12", "plz": "89323", "ort": "Frankfurt"}
 },
 {
- "model":"rest.Medikamentenplan",
- "pk":"1",
- "fields": 
-	{"patient": "1"}
- }
+ "model":"rest.Medikamentenbestellung",
+ "fields": {"patient": "1", "arzt": "1", "medikamentenname": "1", "menge": "300mg"}
+}
 ]

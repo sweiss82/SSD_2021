@@ -13,8 +13,8 @@
     </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-per-Daten" role="tabpanel" aria-labelledby="nav-per-Daten-tab">tbd</div>
-    <div class="tab-pane fade" id="nav-med-plan" role="tabpanel" aria-labelledby="nav-med-plan-tab">{% include 'medikamentenplan.html' %}</div>
+    <div class="tab-pane fade show active" id="nav-per-Daten" role="tabpanel" aria-labelledby="nav-per-Daten-tab">{% include 'persoenlicheDaten_patient.html' with objects=patient %}</div>
+    <div class="tab-pane fade" id="nav-med-plan" role="tabpanel" aria-labelledby="nav-med-plan-tab">{% include 'medikamentenplan.html' with objects=medikamentenplan %}</div>
     <div class="tab-pane fade" id="nav-bestand" role="tabpanel" aria-labelledby="nav-bestand-tab">tbd2</div>
     <div class="tab-pane fade" id="nav-bestellungen" role="tabpanel" aria-labelledby="nav-bestellungen-tab">{% include 'medikamentBestellen.html' %}</div>
     <div class="tab-pane fade" id="nav-patientenakte" role="tabpanel" aria-labelledby="nav-akte-tab">tbd3</div>
