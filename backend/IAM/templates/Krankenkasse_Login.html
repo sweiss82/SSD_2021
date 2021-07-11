@@ -1,0 +1,25 @@
+{% extends 'base_old.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="col-xs-12" style="height:50px;"></div>
+<form action="/login/" method="POST">
+    {% csrf_token %}
+    <div class="container-fluid">
+        <form action="#" method="POST" style="...">
+            {% csrf_token %}
+            <div class="mb-3 col-sm-4">
+                <label for="mitgliederkennung" class="form-label">Mitgliederkennung</label>
+                <input type="text" id="mitgliederkennung" class="form-control">
+            </div>
+            <div class="mb-3 col-sm-4">
+                <label for="passwort">Passwort</label>
+                <input type="password" id="passwort" class="form-control">
+            </div>
+            <div class="mb-3 col-sm-4">
+                <input type="submit" class="btn btn-lg btn-primary" value="Anmelden" />
+            </div>
+    </div>
+</form>
+{% endblock content %}

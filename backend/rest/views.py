@@ -46,8 +46,11 @@ def medikamentenanfrageOffen(request):
 
 def Einloggen(request):
     if request.method == 'GET':
-        print("caled login")
-        return render(request, 'Login.html')
+        try:
+            krankenkassen = Krankenkasse.objects.all()
+        except Krankenkasse.DoesNotExist:
+            return HttpResponse("<h2>keine Krankenkasse vorhanden!</h2>")
+        return render(request, 'Login.html', {'krankenkassen': krankenkassen})
     else:
         return render(request, 'Login.html')
 
@@ -73,7 +76,11 @@ def patientenliste_arzt(request):
         return render(request, 'patientenliste_arzt.html')
 
 def ueberblick_arzt(request):
-        return render(request, 'ueberblick_arzt.html')
+        try:
+            arzt = Arzt.objects.get(id=1)
+        except arzt.DoesNotExist:
+            return HttpResponse("<h2>keine Arzt vorhanden!</h2>")
+        return render(request, 'ueberblick_arzt.html', {'arzt': arzt})
 
 def ueberblick_patient(request):
         try:
@@ -83,6 +90,15 @@ def ueberblick_patient(request):
         try:
             patient = Patient.objects.get(id=3)
             patienten = Patient.objects.all()
+            bestellungen = Medikamentenbestellung.objects.filter(patient=1)
         except patient.DoesNotExist:
                return HttpResponse("<h2>keine Patient vorhanden!</h2>")
-        return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient, 'patienten': patienten})
+        return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient, 'patienten': patienten,
+        'bestellungen': bestellungen})
+
+def offene_bestellungen_patient(request):
+        try:
+            bestellungen = Medikamentenbestellung.objects.filter(patient=1)
+        except Bestellungen.DoesNotExist:
+            return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
+        return render(request, 'offene_bestellungen_patient.html', {'bestellungen': bestellungen})

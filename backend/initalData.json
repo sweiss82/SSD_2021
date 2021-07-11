@@ -1,10 +1,22 @@
 [
 {
- "model":"rest.Arzt",
- "fields": {"vorname": "Martin", "nachname": "Kirschner", "praxisname": "Dr. Kirschner Medizin", "strasse": "Landstrasse", "nr": "12", "plz": "89323", "ort": "Frankfurt"}
+ "model":"rest.Krankenkasse",
+ "fields": {"bezeichnung": "BARMER"}
 },
 {
- "model":"rest.Medikamentenbestellung",
- "fields": {"patient": "1", "arzt": "1", "medikamentenname": "1", "menge": "300mg"}
+ "model":"rest.Krankenkasse",
+ "fields": {"bezeichnung": "DAK Gesundheit"}
+},
+{
+ "model":"rest.Krankenkasse",
+ "fields": {"bezeichnung": "Techniker Krankenkasse"}
+},
+{
+ "model":"rest.Krankenkasse",
+ "fields": {"bezeichnung": "AOK Baden-Württemberg"}
+},
+{
+ "model":"rest.Krankenkasse",
+ "fields": {"bezeichnung": "hkk Krankenkasse"}
 }
 ]

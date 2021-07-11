@@ -11,25 +11,22 @@
         <tr>
             <th scope="col">Nr.</th>
             <th scope="col">Medikament</th>
-            <th scope="col">Wochentag</th>
-            <th scope="col">Uhrzeit</th>
             <th scope="col">Menge</th>
+            <th scope="col">Status</th>
         </tr>
         </thead>
         <tbody>
-            {% for i in medikamentenplan %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{i.medikament.medikamentenname}}</td>
-                <td>{{i.wochentag}}</td>
-                <td>{{i.uhrzeit}}</td>
-                <td>{{i.menge}}</td>
-            </tr>
-            {% endfor %}
+        {% for i in bestellungen %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{i.medikamentenname.medikamentenname}}</td>
+            <td>{{i.menge}}</td>
+            <td>{{i.status}}</td>
+        </tr>
+        {% endfor %}
         </tbody>
     </table>
 </div>
 
 
 {% endblock content %}
-

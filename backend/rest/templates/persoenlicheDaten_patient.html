@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block content %}
+<div class="col-xs-12" style="height:50px;"></div>
+<div class="container-sm col-sm-8 row justify-content-center">
 <table class="table table-striped">
     <thead>
     <tr>
@@ -37,9 +39,6 @@
     </tbody>
 </table>
 
-
-{% for p in patienten %}
-<li>{{p.id}}</li>
-{% endfor %}
+</div>
 
 {% endblock content %}

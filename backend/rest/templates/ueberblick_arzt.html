@@ -1,16 +1,18 @@
 {% extends 'base_arzt.html' %}
 {% load static %}
 
-
 {% block content %}
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Persönliche Daten</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Patientenliste</a>
+        <a class="nav-item nav-link active" id="nav-per-Daten-tab" data-toggle="tab" href="#nav-per-Daten" role="tab" aria-controls="nav-per-Daten" aria-selected="true">Persönliche Daten</a>
+        <a class="nav-item nav-link" id="nav-patienten-tab" data-toggle="tab" href="#nav-patienten" role="tab" aria-controls="nav-patienten" aria-selected="false">Patientenliste</a>
     </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">{% include 'persoenlicheDaten_arzt.html' %}</div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">{% include 'patientenliste_arzt.html' %}</div>
+    <div class="tab-pane fade show active" id="nav-per-Daten" role="tabpanel" aria-labelledby="nav-per-Daten-tab">{% include 'persoenlicheDaten_arzt.html' with objects=arzt %}</div>
+    <div class="tab-pane fade" id="nav-patienten" role="tabpanel" aria-labelledby="nav-patienten-tab">{% include 'patientenliste_arzt.html' with objects=patient %}</div>
 </div>
+
 {% endblock content %}
+
+

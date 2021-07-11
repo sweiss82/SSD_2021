@@ -56,7 +56,9 @@ class Medikamentenplan_Medikamente(models.Model):
     menge = models.CharField(max_length=50, unique=False, null=True)
     kommentar = models.CharField(max_length=50, unique=False, null=True)
 
-
+class Krankenkasse(models.Model):
+    id = models.AutoField(primary_key=True)
+    bezeichnung = models.CharField(max_length=70, unique=False, null=True)
 
 class Rolle(models.Model):
     rolle_bezeichnung=models.CharField(max_length=100)

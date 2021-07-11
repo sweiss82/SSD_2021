@@ -1,0 +1,35 @@
+{% extends 'base_old.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="container-fluid center_div col-md-4 col-md-offset-3">
+
+    <form action="/krankenkasseLogin/" method="post">
+    {% csrf_token %}
+    <div class="form-group form-group w-50 center" id="role">
+        <label for="exampleFormControlSelect1" class="col-form-label">Ich bin...</label>
+        <select class="form-control" id="exampleFormControlSelect1" id="select_id">
+            <option value="arzt">Arzt</option>
+            <option value="patient">Patient</option>
+            <option value="apotheke">Apotheke</option>
+        </select>
+    </div>
+
+
+    <div class="form-group form-group w-50">
+            <label for="exampleFormControlSelect2">Krankenkasse</label>
+            <select multiple class="form-control" id="exampleFormControlSelect2">
+                {% for i in krankenkassen %}
+                    <option>{{i.bezeichnung}}</option>
+                {% endfor %}
+            </select>
+
+        <input type="submit" class="btn btn-lg btn-primary" value="Anmelden">
+</form>
+</div>
+
+
+{% endblock content %}

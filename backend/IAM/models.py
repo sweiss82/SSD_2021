@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from rest.models import Rolle
+#from applications.users.model import User
 
 class MyUserManager(BaseUserManager):
     def create_user(self, benutzername, benutzerrolle, password=None):
@@ -19,7 +20,7 @@ class MyUserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     benutzername = models.CharField(max_length=100, unique=True)
-    benutzerrolle = models.foreignKey(Rolle, on_delete=models.CASCADE, null=True)
+    benutzerrolle = models.ForeignKey(Rolle, on_delete=models.CASCADE, null=True)
 
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
