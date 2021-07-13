@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}<div class="container-fluid"><h2>{{ message }}</h2></div>{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <form action="#" method="GET">
+        {% if error %}
+        <div class="form-group row container-fluid">
+            <input type="submit" class="btn btn-secondary" formaction="{% url 'register' %}" value="Registrieren">
+        </div>
+        {% else %}
+        <div class="form-group row container-fluid">
+            <input type="submit" class="btn btn-primary" formaction="{% url 'login' %}" value="Login">
+        </div>
+        {% endif %}
+    </form>
+</div>
+
+
+<p>{{users}}</p>
+
+{% endblock content %}

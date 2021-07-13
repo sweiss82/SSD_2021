@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-51e*2u)!@(8cny*q-ptgl#a!f9r)nw#^qx6%e@fr1_w$2y)7y+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+AUTH_USER_MODEL = 'IAM.User'
 
 #CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
@@ -49,7 +50,7 @@ CORS_ALLOW_HEADERS = [
     "http-access-control-request-method",
 ]
 ALLOWED_HOSTS = ['*']
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Application definition
 
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
     'IAM.apps.IamConfig',
     'rest_framework',
     'corsheaders',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

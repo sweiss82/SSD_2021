@@ -1,22 +1,7 @@
 [
 {
- "model":"rest.Krankenkasse",
- "fields": {"bezeichnung": "BARMER"}
-},
-{
- "model":"rest.Krankenkasse",
- "fields": {"bezeichnung": "DAK Gesundheit"}
-},
-{
- "model":"rest.Krankenkasse",
- "fields": {"bezeichnung": "Techniker Krankenkasse"}
-},
-{
- "model":"rest.Krankenkasse",
- "fields": {"bezeichnung": "AOK Baden-Württemberg"}
-},
-{
- "model":"rest.Krankenkasse",
- "fields": {"bezeichnung": "hkk Krankenkasse"}
+ "model":"rest.Patient",
+ "pk": "1",
+ "fields": {"vorname": "Ullrich", "nachname": "Weber", "username": "ullrich123", "strasse": "Ringstrasse", "nr": "34", "plz":"37922", "ort": "Frankfurt"}
 }
 ]

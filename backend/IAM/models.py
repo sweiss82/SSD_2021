@@ -20,6 +20,7 @@ class MyUserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     benutzername = models.CharField(max_length=100, unique=True)
+    password = models.CharField(max_length=100, default='')
     benutzerrolle = models.ForeignKey(Rolle, on_delete=models.CASCADE, null=True)
 
     active = models.BooleanField(default=True)
@@ -28,7 +29,7 @@ class User(AbstractBaseUser):
 
     objects = MyUserManager()
 
-    USERNAME_FIELDS = 'benutzername'
+    USERNAME_FIELD = 'benutzername'
     REQUIRED_FIELDS = ['benutzerrolle']
 
 

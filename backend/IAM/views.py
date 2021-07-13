@@ -29,6 +29,7 @@ from django.urls import reverse
 import datetime
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
+from rest.models import Krankenkasse
 
 class UserCreationForm2View(View):
     form_class=UserCreationForm2
@@ -36,38 +37,52 @@ class UserCreationForm2View(View):
 
     def get(self, request):
         form = self.form_class(None)
-        print("Formulardaten", form)
+        #print("Formulardaten", form)
         return render(request, self.template_name, {'form':form})
 
     def post(self, request):
-        form = self.form_class(request.POST)
-
+        form = self.form_class(data = request.POST)
+        print("form errors", form.errors)
         if form.is_valid():
            user = form.save(commit=False)
            benutzername=form.cleaned_data['benutzername']
            password = form.clean_password2()
            benutzerrolle=form.cleaned_data['benutzerrolle']
            user.set_password(password)
+           print("passwort", password)
+           print("benutzerrolle", benutzerrolle)
            user.benutzerrolle = Rolle.objects.get(pk=benutzerrolle)
            user.save()
-           return render(request, 'register_response.html', {'message': 'Registrierung erfolgreich!',})
+           return HttpResponse("<h2>Registrierung erfolgreich!</h2>")
         else:
-            return render(request, 'register_response.html', {'message': 'Registrierung nicht erfolgreich!', 'error':'invalid data'})
+           from django.contrib.auth import get_user_model
+           User = get_user_model()
+           users = User.objects.all()
+           return render(request, 'register_response.html', {'users': len(users)})
 
 def logUserIn(request):
     if request.method == 'GET':
-        return render(request, 'Login.html')
+        krankenkassen = Krankenkasse.objects.all()
+        return render(request, 'Login.html', {'krankenkassen': krankenkassen})
     if request.method == 'POST':
         username = request.POST.get('mitgliederkennung', None)
+        print("mitglied", username)
         password = request.POST.get('passwort', None)
+        print("pw", password)
         user = authenticate(request, username=username, password=password)
+        print("User", user)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse('show BAs'))
+            return HttpResponseRedirect(reverse('ueberblick_patient'))
         else:
-            return render(request, 'LoginPage.html', {'error' : 'invalidData',})
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            users = User.objects.all()
+            return render(request, 'register_response.html', {'users': users})
+             #return HttpResponse("<h2>Credentials invalid!</h2>")
+            #eturn render(request, 'LoginPage.html', {'error' : 'invalidData',})
 def logUserIn2(request):
-      return render(request, 'Krankenkasse_Login.html', {'error' : 'invalidData',})
+     return render(request, 'Krankenkasse_Login.html')
 
 def logUserOut(request):
     logout(request)

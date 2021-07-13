@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}<div class="container-fluid"><h2>Registrieren</h2></div>{% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container-fluid">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% if form %}
+        <div class="form-group row container-fluid">
+            {{form.benutzername|as_crispy_field }}
+        </div>
+
+        <div class="form-group row container-fluid">
+            {{form.password1|as_crispy_field }}
+        </div>
+
+        <div class="form-group row container-fluid">
+            {{form.password2|as_crispy_field }}
+        </div>
+
+        <div class="form-group row container-fluid">
+            {{form.benutzerrolle|as_crispy_field }}
+        </div>
+        {% else %}
+        <h2>kein Formular vorhanden</h2>
+        {% endif %}
+        <input type="submit"  class="btn btn-primary" value="Registrieren" />
+    </form>
+</div>
+{% endblock content %}

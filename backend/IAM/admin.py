@@ -19,9 +19,9 @@ class UserCreationForm2(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password Bestätigung', widget=forms.PasswordInput)
 
-    CHOICES = [('1', 'Professor'),
-               ('2', 'Sekretariat'),
-               ('3', 'Professor und Sekretariat')]
+    CHOICES = [('1', 'Arzt'),
+               ('2', 'Patient'),
+               ('3', 'Apotheke')]
     benutzerrolle=forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
    # benutzerrolle1 = forms.CharField(max_length=100)
 

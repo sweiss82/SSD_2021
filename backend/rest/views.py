@@ -83,18 +83,19 @@ def ueberblick_arzt(request):
         return render(request, 'ueberblick_arzt.html', {'arzt': arzt})
 
 def ueberblick_patient(request):
-        try:
-            medikamentenplan = Medikamentenplan_Medikamente.objects.filter(medikamentenplan=1)
-        except Medikamentenplan.DoesNotExist:
-            return HttpResponse("<h2>keine Medikamentenplan vorhanden!</h2>")
-        try:
-            patient = Patient.objects.get(id=3)
-            patienten = Patient.objects.all()
-            bestellungen = Medikamentenbestellung.objects.filter(patient=1)
-        except patient.DoesNotExist:
-               return HttpResponse("<h2>keine Patient vorhanden!</h2>")
-        return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient, 'patienten': patienten,
-        'bestellungen': bestellungen})
+        if request.user.is_authenticated:
+            try:
+                patient = Patient.objects.get(username=request.user.benutzername)
+                medikamentenplan = Medikamentenplan.objects.prefetch_related('Medikamentenplan_Medikamente').get(patient=patient.id)
+            except Medikamentenplan.DoesNotExist:
+                return HttpResponse("<h2>keine Medikamentenplan vorhanden!</h2>")
+            #try:
+            #    patient = Patient.objects.get(id=3)
+            #    patienten = Patient.objects.all()
+            #    bestellungen = Medikamentenbestellung.objects.filter(patient=1)
+           # except patient.DoesNotExist:
+            #       return HttpResponse("<h2>keine Patient vorhanden!</h2>")
+            return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient})
 
 def offene_bestellungen_patient(request):
         try:

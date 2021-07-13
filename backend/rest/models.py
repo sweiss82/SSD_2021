@@ -11,6 +11,7 @@ class Patient(models.Model):
     id = models.AutoField(primary_key=True)
     vorname = models.CharField(max_length=255, unique=False, null=True)
     nachname = models.CharField(max_length=255, unique=False, null=True)
+    username = models.CharField(max_length=255, unique=False, null=True)
     #geburtsdatum = models.(max_length=255, unique=False, null=True)
     strasse = models.CharField(max_length=255, unique=False, null=True)
     nr = models.CharField(max_length=10, unique=False, null=True)

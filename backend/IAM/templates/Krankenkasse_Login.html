@@ -4,22 +4,22 @@
 {% block content %}
 
 <div class="col-xs-12" style="height:50px;"></div>
-<form action="/login/" method="POST">
-    {% csrf_token %}
+{% load crispy_forms_tags %}
     <div class="container-fluid">
-        <form action="#" method="POST" style="...">
+        <form action="/login/" method="POST" style="...">
             {% csrf_token %}
             <div class="mb-3 col-sm-4">
                 <label for="mitgliederkennung" class="form-label">Mitgliederkennung</label>
-                <input type="text" id="mitgliederkennung" class="form-control">
+                <input type="text" id="mitgliederkennung" name="mitgliederkennung">
             </div>
             <div class="mb-3 col-sm-4">
                 <label for="passwort">Passwort</label>
-                <input type="password" id="passwort" class="form-control">
+                <input type="password" id="passwort" name="passwort">
             </div>
             <div class="mb-3 col-sm-4">
-                <input type="submit" class="btn btn-lg btn-primary" value="Anmelden" />
+                <input type="submit" class="btn btn-lg btn-primary" value="Anmelden">
             </div>
+        </form>
     </div>
-</form>
+
 {% endblock content %}
