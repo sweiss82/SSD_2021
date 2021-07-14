@@ -15,9 +15,13 @@ def medikamentBestellen(request):
     if request.method == 'GET':
         return render(request, 'medikamentBestellen.html')
     elif request.method == 'POST':
+        patient = Patient.objects.get(username=request.user.benutzername)
         medikamentenbezeichnung = request.POST.get('medikamentenbezeichnung', None)
+        dosierung = request.POST.get('dosierung', None)
         menge = request.POST.get('menge', None)
-        bestellung = Medikamentenbestellung(medikamentenname = medikamentenbezeichnung, menge=menge)
+        # Parameter für Abholung fehlt...
+        bestellung = Medikamentenbestellung(medikamentenname = medikamentenbezeichnung, menge=menge,
+        dosierung=dosierung, status=BestellungStatus.OFFEN, patient=patient.id, arzt=patient.arzt)
         bestellung.save()
         return HttpResponse("<h2>Speichern erfolgreich!</h2>")
     else:
@@ -38,11 +42,22 @@ def medikamentenplanDetailsEinsehen(request):
 
 def medikamentenanfrageOffen(request):
     if request.method == 'GET':
-         try:
-            medikamentenbestellung = Medikamentenbestellung.objects.filter(arzt=1)
-         except Medikamentenbestellung.DoesNotExist:
-            return HttpResponse("<h2>keine Medikamentenbestellung vorhanden!</h2>")
-         return render(request, 'medikamentenanfrage_offen.html', {'medikamentenbestellung': medikamentenbestellung})
+        try:
+           arzt = Arzt.objects.get(username = request.user.benutzername)
+           medikamentenbestellung = Medikamentenbestellung.objects.filter(arzt=arzt.id, status=BestellungStatus.OFFEN)
+        except Medikamentenbestellung.DoesNotExist:
+           return HttpResponse("<h2>keine Medikamentenbestellung vorhanden!</h2>")
+        return render(request, 'medikamentenanfrage_offen.html', {'medikamentenbestellung': medikamentenbestellung})
+    elif request.method == 'POST':
+        try:
+           bestellungID = request.POST.get('id', None)
+           medikamentenbestellung = Medikamentenbestellung.objects.get(id=bestellungID)
+           medikamentenbestellung.bearbeiten(status=BestellungStatus.BESTÄTIGT)
+        except Medikamentenbestellung.DoesNotExist:
+           return HttpResponse("<h2>Fehler beim Speichern!</h2>")
+        return HttpResponseRedirect(reverse('medikamentenanfrageOffen'))
+    else:
+        pass
 
 def Einloggen(request):
     if request.method == 'GET':
@@ -86,7 +101,10 @@ def ueberblick_patient(request):
         if request.user.is_authenticated:
             try:
                 patient = Patient.objects.get(username=request.user.benutzername)
-                medikamentenplan = Medikamentenplan.objects.prefetch_related('Medikamentenplan_Medikamente').get(patient=patient.id)
+                #medikamentenplan = Medikamentenplan.objects.select_related().filter(patient=patient.id)
+                medikamentenplan_patient = Medikamentenplan.objects.get(patient=patient.id)
+                medikamentenplan = Medikamentenplan_Medikamente.objects.filter(medikamentenplan=medikamentenplan_patient.id)
+
             except Medikamentenplan.DoesNotExist:
                 return HttpResponse("<h2>keine Medikamentenplan vorhanden!</h2>")
             #try:

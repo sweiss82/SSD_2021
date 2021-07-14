@@ -12,6 +12,8 @@
         <th scope="col">Patient</th>
         <th scope="col">Medikamentenname</th>
         <th scope="col">Menge</th>
+        <th scope="col">Dosierung</th>
+        <th scope="col">Auswahl</th>
     </tr>
     </thead>
     <tbody>
@@ -21,6 +23,13 @@
         <td>{{i.patient.nachname}}</td>
         <td>{{i.medikamentenname.medikamentenname}}</td>
         <td>{{i.menge}}</td>
+        <td>{{i.dosierung}}</td>
+        <td>
+            <form action="/BestellungBestätigen/" method="POST">
+                <input type="hidden" name="id" id="id">{{i.id}}</input>
+                <input type="submit" value="Bestätigen" />
+            </form>
+        </td>
     </tr>
     {% endfor %}
     </tbody>
