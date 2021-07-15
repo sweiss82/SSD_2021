@@ -110,3 +110,8 @@ def offene_bestellungen_patient(request):
         except bestellungen.DoesNotExist:
             return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
         return render(request, 'offene_bestellungen_patient.html', {'bestellungen': bestellungen})
+
+#todo: persönliche Daten ausgeben verknüpfen
+def serializejson(obj):
+    serialized_obj = serializers.serialize('json', [ obj, ])
+    return serialized_obj
