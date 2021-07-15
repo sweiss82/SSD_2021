@@ -17,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-            {% for i in medikamentenplan.medikamente.all %}
+            {% for i in medikamentenplan %}
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{i.medikament.medikamentenname}}</td>

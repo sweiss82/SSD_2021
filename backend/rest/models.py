@@ -7,17 +7,6 @@ class Medikament(models.Model):
     id = models.AutoField(primary_key=True)
     medikamentenname = models.CharField(max_length=255, unique=False, null=True)
 
-class Patient(models.Model):
-    id = models.AutoField(primary_key=True)
-    vorname = models.CharField(max_length=255, unique=False, null=True)
-    nachname = models.CharField(max_length=255, unique=False, null=True)
-    username = models.CharField(max_length=255, unique=False, null=True)
-    #geburtsdatum = models.(max_length=255, unique=False, null=True)
-    strasse = models.CharField(max_length=255, unique=False, null=True)
-    nr = models.CharField(max_length=10, unique=False, null=True)
-    plz = models.CharField(max_length=10, unique=False, null=True)
-    ort = models.CharField(max_length=10, unique=False, null=True)
-
 class Arzt(models.Model):
     id = models.AutoField(primary_key=True)
     vorname = models.CharField(max_length=255, unique=False, null=True)
@@ -28,6 +17,19 @@ class Arzt(models.Model):
     nr = models.CharField(max_length=10, unique=False, null=True)
     plz = models.CharField(max_length=10, unique=False, null=True)
     ort = models.CharField(max_length=10, unique=False, null=True)
+    username = models.CharField(max_length=255, unique=False, null=True)
+
+class Patient(models.Model):
+    id = models.AutoField(primary_key=True)
+    vorname = models.CharField(max_length=255, unique=False, null=True)
+    nachname = models.CharField(max_length=255, unique=False, null=True)
+    username = models.CharField(max_length=255, unique=False, null=True)
+    #geburtsdatum = models.(max_length=255, unique=False, null=True)
+    strasse = models.CharField(max_length=255, unique=False, null=True)
+    nr = models.CharField(max_length=10, unique=False, null=True)
+    plz = models.CharField(max_length=10, unique=False, null=True)
+    ort = models.CharField(max_length=10, unique=False, null=True)
+    arzt = models.ForeignKey(Arzt, on_delete=models.CASCADE, null=True)
 
 class BestellungStatus(Enum):
     OFFEN = "Offen"
@@ -41,8 +43,13 @@ class Medikamentenbestellung(models.Model):
     medikamentenname = models.ForeignKey(Medikament, on_delete=models.CASCADE, null=True)
     menge = models.CharField(max_length=50, unique=False, null=True)
     dosis = models.CharField(max_length=50, unique=False, null=True)
+    wirdAbgeholt = models.BooleanField(null=True)
     status = models.CharField(max_length=50, unique=False, null=True)
     datum = models.DateField(null=True)
+
+    def bearbeiten(self, status):
+        self.status = status
+        self.save()
 
 class Medikamentenplan(models.Model):
     id = models.AutoField(primary_key=True)

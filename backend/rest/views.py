@@ -7,22 +7,21 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 from .serializer import UserSerializer
-import datetime
 from django.shortcuts import HttpResponse
-from rest.models import BestellungStatus
+
 # Create your views here.
 
 def medikamentBestellen(request):
     if request.method == 'GET':
         return render(request, 'medikamentBestellen.html')
     elif request.method == 'POST':
-        medikamentenbezeichnung = request.POST.get('bestellung_medi', None)
-        menge = request.POST.get('bestellung_menge', None)
-        dosis = request.POST.get('bestellung_dosis', None)
-        arzt = Arzt.objects.get(id=1)
-        patient = Patient.objects.get(id=1)
-        date = datetime.datetime(2001,1,1,8,30) #todo: datum bei apo auswählen
-        bestellung = Medikamentenbestellung(patient=patient, medikamentenname=Medikament.objects.get(medikamentenname=medikamentenbezeichnung), menge=menge, dosis=dosis, status=BestellungStatus.OFFEN, arzt=arzt, datum=date)
+        patient = Patient.objects.get(username=request.user.benutzername)
+        medikamentenbezeichnung = request.POST.get('medikamentenbezeichnung', None)
+        dosierung = request.POST.get('dosierung', None)
+        menge = request.POST.get('menge', None)
+        # Parameter für Abholung fehlt...
+        bestellung = Medikamentenbestellung(medikamentenname = medikamentenbezeichnung, menge=menge,
+        dosierung=dosierung, status=BestellungStatus.OFFEN, patient=patient.id, arzt=patient.arzt)
         bestellung.save()
         return HttpResponse("<h2>Speichern erfolgreich!</h2>")
     else:
@@ -43,11 +42,22 @@ def medikamentenplanDetailsEinsehen(request):
 
 def medikamentenanfrageOffen(request):
     if request.method == 'GET':
-         try:
-            medikamentenbestellung = Medikamentenbestellung.objects.filter(arzt=1)
-         except Medikamentenbestellung.DoesNotExist:
-            return HttpResponse("<h2>keine Medikamentenbestellung vorhanden!</h2>")
-         return render(request, 'medikamentenanfrage_offen.html', {'medikamentenbestellung': medikamentenbestellung})
+        try:
+           arzt = Arzt.objects.get(username = request.user.benutzername)
+           medikamentenbestellung = Medikamentenbestellung.objects.filter(arzt=arzt.id, status=BestellungStatus.OFFEN)
+        except Medikamentenbestellung.DoesNotExist:
+           return HttpResponse("<h2>keine Medikamentenbestellung vorhanden!</h2>")
+        return render(request, 'medikamentenanfrage_offen.html', {'medikamentenbestellung': medikamentenbestellung})
+    elif request.method == 'POST':
+        try:
+           bestellungID = request.POST.get('id', None)
+           medikamentenbestellung = Medikamentenbestellung.objects.get(id=bestellungID)
+           medikamentenbestellung.bearbeiten(status=BestellungStatus.BESTÄTIGT)
+        except Medikamentenbestellung.DoesNotExist:
+           return HttpResponse("<h2>Fehler beim Speichern!</h2>")
+        return HttpResponseRedirect(reverse('medikamentenanfrageOffen'))
+    else:
+        pass
 
 def Einloggen(request):
     if request.method == 'GET':
@@ -65,7 +75,6 @@ def krankenkasseLogin(request):
     else:
          return render(request, 'Krankenkasse_Login.html')
 
-#todo: wann wird das aufgerufen?
 def persoenlicheDatenArzt(request):
     if request.method == 'GET':
         return render(request, 'persoenlicheDaten_arzt.html')
@@ -93,7 +102,10 @@ def ueberblick_patient(request):
         if request.user.is_authenticated:
             try:
                 patient = Patient.objects.get(username=request.user.benutzername)
-                medikamentenplan = Medikamentenplan.objects.prefetch_related('Medikamentenplan_Medikamente').get(patient=patient.id)
+                #medikamentenplan = Medikamentenplan.objects.select_related().filter(patient=patient.id)
+                medikamentenplan_patient = Medikamentenplan.objects.get(patient=patient.id)
+                medikamentenplan = Medikamentenplan_Medikamente.objects.filter(medikamentenplan=medikamentenplan_patient.id)
+
             except Medikamentenplan.DoesNotExist:
                 return HttpResponse("<h2>keine Medikamentenplan vorhanden!</h2>")
             #try:

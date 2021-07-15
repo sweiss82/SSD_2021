@@ -13,5 +13,6 @@ urlpatterns = [
     path('arzt_ueberblick/', views.ueberblick_arzt, name='views.ueberblick_arzt'),
     path('patient_ueberblick/', views.ueberblick_patient, name='ueberblick_patient'),
     path('register/', IAM.views.UserCreationForm2View.as_view(), name='register'),
+    path('BestellungBestätigen/', IAM.views.UserCreationForm2View.as_view(), name='register'),
     path('', views.medikamentBestellen),
 ]

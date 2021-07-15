@@ -6,10 +6,9 @@
 {% block content %}
 
 <div class="col-xs-12" style="height:50px;"></div>
-<form action="/medikamentenbestellung/" method="POST">
-{% csrf_token %}
+
     <div class="container-fluid">
-        <form action="#" method="POST" style="...">
+        <form action="/medikamentenbestellung/" method="POST" style="...">
             {% csrf_token %}
 
         <div class="form-group form-group w-50 center">
@@ -45,6 +44,11 @@
     </div>
 </form>
 
+
+<script>
+    var Bestellmodalitaet = document.querySelector('input[type="radio"][name="flexRadioDefault"]:checked').val();
+    $("#Bestellmodalitaet").attr("value", "cv");
+</script>
 {% endblock content %}
 
 
