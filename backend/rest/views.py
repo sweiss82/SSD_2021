@@ -9,7 +9,7 @@ from rest_framework import permissions
 from .serializer import UserSerializer
 import datetime
 from django.shortcuts import HttpResponse
-
+from rest.models import BestellungStatus
 # Create your views here.
 
 def medikamentBestellen(request):
@@ -84,9 +84,10 @@ def patientenliste_arzt(request):
 def ueberblick_arzt(request):
         try:
             arzt = Arzt.objects.get(id=1)
+            patientenliste = Patient.objects.all()
         except arzt.DoesNotExist:
             return HttpResponse("<h2>keine Arzt vorhanden!</h2>")
-        return render(request, 'ueberblick_arzt.html', {'arzt': arzt})
+        return render(request, 'ueberblick_arzt.html', {'arzt': arzt, 'patient': patientenliste})
 
 def ueberblick_patient(request):
         if request.user.is_authenticated:

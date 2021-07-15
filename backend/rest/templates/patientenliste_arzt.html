@@ -1,7 +1,28 @@
-
 {% load static %}
 
 {% block content %}
-<h2>ddd</h2>
 
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Vorname</th>
+        <th scope="col">Nachname</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in patient %}
+    <tr>
+        <td>{{i.id}}</td>
+        <td>{{i.vorname}}</td>
+        <td>{{i.nachname}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<p>{{patient.length}}</p>
 {% endblock content %}
+
+
