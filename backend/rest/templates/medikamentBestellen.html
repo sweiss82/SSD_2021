@@ -11,17 +11,37 @@
     <div class="container-fluid">
         <form action="#" method="POST" style="...">
             {% csrf_token %}
-        <div class="mb-3 col-sm-4">
-            <label for="medikamentenname" class="form-label">Medikamentenname</label>
-                <input type="text" id="medikamentenname" class="form-control">
+
+        <div class="form-group form-group w-50 center">
+            <label for="bestellung_medi" class="col-form-label">Medikamentenname</label>
+            <select class="form-control" id="bestellung_medi" name="bestellung_medi">
+                <option value="Aspirin">Aspirin</option>
+                <option value="Ibuprophen">Ibuprophen</option>
+                <option value="Marcomar ">Marcomar </option>
+            </select>
         </div>
-        <div class="mb-3 col-sm-4">
-            <label for="menge">Menge</label>
-                <input type="text" id="menge" class="form-control">
+
+        <div class="form-group form-group w-50 center">
+            <label for="bestellung_dosis" class="col-form-label">Dosis</label>
+            <select class="form-control" id="bestellung_dosis" name="bestellung_dosis">
+                <option value="100mg">100mg</option>
+                <option value="125mg">125mg</option>
+                <option value="150mg">150mg</option>
+            </select>
         </div>
-            <div class="mb-3 col-sm-4">
-        <input type="submit" class="btn btn-lg btn-primary" value="Bestellen" />
-            </div>
+
+        <div class="form-group form-group w-50 center">
+            <label for="bestellung_menge" class="col-form-label">Menge</label>
+            <select class="form-control" id="bestellung_menge" name="bestellung_menge">
+                <option value="50 Tabletten">50 Tabletten</option>
+                <option value="100 Tabletten">100 Tabletten</option>
+                <option value="200 Tabletten">200 Tabletten</option>
+            </select>
+        </div>
+
+        <div class="mb-3 col-sm-4">
+            <input type="submit" class="btn btn-lg btn-primary" value="Bestellen" />
+        </div>
     </div>
 </form>
 

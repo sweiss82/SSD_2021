@@ -40,7 +40,9 @@ class Medikamentenbestellung(models.Model):
     arzt = models.ForeignKey(Arzt, on_delete=models.CASCADE, null=True)
     medikamentenname = models.ForeignKey(Medikament, on_delete=models.CASCADE, null=True)
     menge = models.CharField(max_length=50, unique=False, null=True)
+    dosis = models.CharField(max_length=50, unique=False, null=True)
     status = models.CharField(max_length=50, unique=False, null=True)
+    datum = models.DateField(null=True)
 
 class Medikamentenplan(models.Model):
     id = models.AutoField(primary_key=True)

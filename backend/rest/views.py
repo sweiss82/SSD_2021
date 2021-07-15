@@ -7,6 +7,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 from .serializer import UserSerializer
+import datetime
 from django.shortcuts import HttpResponse
 
 # Create your views here.
@@ -15,9 +16,13 @@ def medikamentBestellen(request):
     if request.method == 'GET':
         return render(request, 'medikamentBestellen.html')
     elif request.method == 'POST':
-        medikamentenbezeichnung = request.POST.get('medikamentenbezeichnung', None)
-        menge = request.POST.get('menge', None)
-        bestellung = Medikamentenbestellung(medikamentenname = medikamentenbezeichnung, menge=menge)
+        medikamentenbezeichnung = request.POST.get('bestellung_medi', None)
+        menge = request.POST.get('bestellung_menge', None)
+        dosis = request.POST.get('bestellung_dosis', None)
+        arzt = Arzt.objects.get(id=1)
+        patient = Patient.objects.get(id=1)
+        date = datetime.datetime(2001,1,1,8,30) #todo: datum bei apo auswählen
+        bestellung = Medikamentenbestellung(patient=patient, medikamentenname=Medikament.objects.get(medikamentenname=medikamentenbezeichnung), menge=menge, dosis=dosis, status=BestellungStatus.OFFEN, arzt=arzt, datum=date)
         bestellung.save()
         return HttpResponse("<h2>Speichern erfolgreich!</h2>")
     else:
@@ -60,6 +65,7 @@ def krankenkasseLogin(request):
     else:
          return render(request, 'Krankenkasse_Login.html')
 
+#todo: wann wird das aufgerufen?
 def persoenlicheDatenArzt(request):
     if request.method == 'GET':
         return render(request, 'persoenlicheDaten_arzt.html')
@@ -100,6 +106,6 @@ def ueberblick_patient(request):
 def offene_bestellungen_patient(request):
         try:
             bestellungen = Medikamentenbestellung.objects.filter(patient=1)
-        except Bestellungen.DoesNotExist:
+        except bestellungen.DoesNotExist:
             return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
         return render(request, 'offene_bestellungen_patient.html', {'bestellungen': bestellungen})
