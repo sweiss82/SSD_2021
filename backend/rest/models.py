@@ -57,6 +57,7 @@ class Medikamentenbestellung(models.Model):
     wirdAbgeholt = models.BooleanField(null=True)
     status = models.CharField(max_length=50, unique=False, null=True)
     liefertermin = models.DateField(auto_now=False, null=True)
+    datum = models.DateField(null=True)
 
     def bearbeiten(self, status, *args,  **kwargs):
         self.status = status

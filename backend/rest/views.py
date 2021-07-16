@@ -176,7 +176,7 @@ def offene_bestellungen_apotheke(request):
 def offene_bestellungen_patient(request):
         try:
             bestellungen = Medikamentenbestellung.objects.filter(patient=1)
-        except Bestellungen.DoesNotExist:
+        except bestellungen.DoesNotExist:
             return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
         return render(request, 'offene_bestellungen_patient.html', {'bestellungen': bestellungen})
 
@@ -209,3 +209,7 @@ def getUserData(request, patient_id):
         response = FileResponse(open('nutzerdaten.txt', 'rb'))
         return response
 
+#todo: persönliche Daten ausgeben verknüpfen -> siehe getUserData()
+#def serializejson(obj):
+#    serialized_obj = serializers.serialize('json', [ obj, ])
+#   return serialized_obj
