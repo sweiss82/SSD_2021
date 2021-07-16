@@ -8,20 +8,37 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from .serializer import UserSerializer
 from django.shortcuts import HttpResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+import datetime
+from icalendar import Calendar, Event
+from django.utils.encoding import smart_str
+from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
+from wsgiref.util import FileWrapper
+from django.http import FileResponse
+from django.core import serializers
 
 # Create your views here.
 
 def medikamentBestellen(request):
     if request.method == 'GET':
-        return render(request, 'medikamentBestellen.html')
+        medikamente = Medikament.objects.all()
+        apotheken = Apotheke.objects.all()
+        return render(request, 'medikamentBestellen.html', {"medikamente": medikamente, 'apotheken': apotheken})
     elif request.method == 'POST':
         patient = Patient.objects.get(username=request.user.benutzername)
-        medikamentenbezeichnung = request.POST.get('medikamentenbezeichnung', None)
+        arzt = Arzt.objects.get(id=patient.arzt.id)
+        medikamentenbezeichnung = request.POST.get('medikamentenname', None)
+        medikament = Medikament.objects.get(medikamentenname = medikamentenbezeichnung)
         dosierung = request.POST.get('dosierung', None)
         menge = request.POST.get('menge', None)
-        # Parameter für Abholung fehlt...
-        bestellung = Medikamentenbestellung(medikamentenname = medikamentenbezeichnung, menge=menge,
-        dosierung=dosierung, status=BestellungStatus.OFFEN, patient=patient.id, arzt=patient.arzt)
+        auswahl = request.POST.get('auswahl', None)
+        apothekenname = request.POST.get('apotheke', None)
+        apotheke = Apotheke.objects.get(name = apothekenname)
+        bestellung = Medikamentenbestellung(medikamentenname = medikament, menge=menge,
+        dosierung=dosierung, status=BestellungStatus.OFFEN, patient=patient, arzt=arzt, wirdAbgeholt=auswahl,
+        apotheke=apotheke)
         bestellung.save()
         return HttpResponse("<h2>Speichern erfolgreich!</h2>")
     else:
@@ -49,13 +66,28 @@ def medikamentenanfrageOffen(request):
            return HttpResponse("<h2>keine Medikamentenbestellung vorhanden!</h2>")
         return render(request, 'medikamentenanfrage_offen.html', {'medikamentenbestellung': medikamentenbestellung})
     elif request.method == 'POST':
-        try:
-           bestellungID = request.POST.get('id', None)
-           medikamentenbestellung = Medikamentenbestellung.objects.get(id=bestellungID)
-           medikamentenbestellung.bearbeiten(status=BestellungStatus.BESTÄTIGT)
-        except Medikamentenbestellung.DoesNotExist:
-           return HttpResponse("<h2>Fehler beim Speichern!</h2>")
-        return HttpResponseRedirect(reverse('medikamentenanfrageOffen'))
+        bestellungID = request.POST.get('id', None)
+        medikamentenbestellung = Medikamentenbestellung.objects.get(id=bestellungID)
+        print("nutzerrolle", request.user.benutzerrolle.rolle_bezeichnung)
+        if request.user.benutzerrolle.rolle_bezeichnung == "Arzt":
+            try:
+               medikamentenbestellung.bearbeiten(status=BestellungStatus.BESTÄTIGT)
+            except Medikamentenbestellung.DoesNotExist:
+               return HttpResponse("<h2>Fehler beim Speichern!</h2>")
+            return HttpResponseRedirect(reverse('medikamentenanfrageOffen'))
+        elif request.user.benutzerrolle.rolle_bezeichnung == "Apotheke":
+            try:
+               termin = request.POST.get('termin', None)
+               if medikamentenbestellung.wirdAbgeholt == False:
+                    #liefertermin = datetime.strptime(termin, "%d %B, %Y")
+                    liefertermin = datetime.datetime.strptime(termin, '%d.%m.%Y').date()
+                    #liefertermin = datetime.datetime.strptime(termin, '%d.%m.%Y').strftime('%Y-%m-%d')
+                    medikamentenbestellung.bearbeiten(status=BestellungStatus.ARCHIVIERT, liefertermin=liefertermin)
+               else:
+                    medikamentenbestellung.bearbeiten(status=BestellungStatus.ARCHIVIERT)
+            except Medikamentenbestellung.DoesNotExist:
+               return HttpResponse("<h2>Fehler beim Speichern!</h2>")
+            return HttpResponseRedirect(reverse('ueberblick_apotheke'))
     else:
         pass
 
@@ -93,9 +125,10 @@ def patientenliste_arzt(request):
 def ueberblick_arzt(request):
         try:
             arzt = Arzt.objects.get(id=1)
+            patienten = Patient.objects.filter(arzt=arzt)
         except arzt.DoesNotExist:
             return HttpResponse("<h2>keine Arzt vorhanden!</h2>")
-        return render(request, 'ueberblick_arzt.html', {'arzt': arzt})
+        return render(request, 'ueberblick_arzt.html', {'arzt': arzt, 'patienten': patienten})
 
 def ueberblick_patient(request):
         if request.user.is_authenticated:
@@ -104,6 +137,7 @@ def ueberblick_patient(request):
                 #medikamentenplan = Medikamentenplan.objects.select_related().filter(patient=patient.id)
                 medikamentenplan_patient = Medikamentenplan.objects.get(patient=patient.id)
                 medikamentenplan = Medikamentenplan_Medikamente.objects.filter(medikamentenplan=medikamentenplan_patient.id)
+                bestellungen = Medikamentenbestellung.objects.filter(patient=patient)
 
             except Medikamentenplan.DoesNotExist:
                 return HttpResponse("<h2>keine Medikamentenplan vorhanden!</h2>")
@@ -113,7 +147,31 @@ def ueberblick_patient(request):
             #    bestellungen = Medikamentenbestellung.objects.filter(patient=1)
            # except patient.DoesNotExist:
             #       return HttpResponse("<h2>keine Patient vorhanden!</h2>")
-            return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient})
+            return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient,
+                "bestellungen": bestellungen})
+
+def ueberblick_apotheke(request):
+    if request.user.is_authenticated:
+            try:
+                apotheke = Apotheke.objects.get(username=request.user.benutzername)
+                bestellungen = Medikamentenbestellung.objects.filter(apotheke=apotheke.id, status=BestellungStatus.BESTÄTIGT)
+            except Apotheke.DoesNotExist:
+                return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
+            #try:
+            #    patient = Patient.objects.get(id=3)
+            #    patienten = Patient.objects.all()
+            #    bestellungen = Medikamentenbestellung.objects.filter(patient=1)
+           # except patient.DoesNotExist:
+            #       return HttpResponse("<h2>keine Patient vorhanden!</h2>")
+            return render(request, 'ueberblick_apotheke.html', {'apotheke': apotheke, "bestellungen": bestellungen})
+
+def offene_bestellungen_apotheke(request):
+        try:
+            apotheke = Apotheke.objects.get(username = request.user.benutzername)
+            medikamentenbestellung = Medikamentenbestellung.objects.filter(apotheke=apotheke.id, status=BestellungStatus.BESTÄTIGT)
+        except Bestellungen.DoesNotExist:
+            return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
+        return render(request, 'offene_bestellungen_apotheke.html', {'bestellungen': bestellungen})
 
 def offene_bestellungen_patient(request):
         try:
@@ -121,3 +179,33 @@ def offene_bestellungen_patient(request):
         except Bestellungen.DoesNotExist:
             return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
         return render(request, 'offene_bestellungen_patient.html', {'bestellungen': bestellungen})
+
+def iCalErstellen(request, bestell_id):
+        event = Event()
+        bestellung = Medikamentenbestellung.objects.get(id=bestell_id)
+
+        event.add('summary', "Liefertermin")
+        event.add('dtstart', bestellung.liefertermin)
+        event.add('dtend', bestellung.liefertermin)
+        beschreibung = "Lieferung des Medikaments " + bestellung.medikamentenname.medikamentenname
+        event.add('description', beschreibung)
+        location = "Apotheke: " + bestellung.apotheke.name
+        event.add('location', location)
+
+        with open('liefertermin.ics', 'wb') as f:
+            f.write(event.to_ical())
+        f.close()
+
+        response = FileResponse(open('liefertermin.ics', 'rb'))
+        return response
+
+def getUserData(request, patient_id):
+        patient = Patient.objects.filter(id=patient_id)
+        with open("nutzerdaten.txt", "w") as out:
+            data = serializers.serialize("json", patient)
+            out.write(data)
+        out.close()
+
+        response = FileResponse(open('nutzerdaten.txt', 'rb'))
+        return response
+

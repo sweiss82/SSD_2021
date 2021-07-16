@@ -1,0 +1,80 @@
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+{% block content %}
+<div class="col-xs-12" style="height:50px;"></div>
+
+<div class="container-sm col-sm-8 row justify-content-center">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Nr.</th>
+            <th scope="col">Medikament</th>
+            <th scope="col">Menge</th>
+            <th scope="col">Dosierung</th>
+            <th scope="col">Patient</th>
+            <th scope="col">wirdAbgeholt</th>
+            <th scope="col">Auswahl</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in bestellungen %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{i.medikamentenname.medikamentenname}}</td>
+            <td>{{i.menge}}</td>
+            <td>{{i.dosierung}}</td>
+            <td>{{i.patient.nachname}},{{i.patient.vorname}}</td>
+            <td>{{i.wirdAbgeholt}}</td>
+            <td>
+                {% if i.wirdAbgeholt %}
+                    <form action="/BestellungBestätigen/" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{i.id}}" name="id" id="id" />
+                        <input type="submit" value="Bestätigen" />
+                        <input type="submit" value="Ablehnen" />
+                    </form>
+                {% else %}
+
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Bestätigen</button>
+
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Liefertermin festlegen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/BestellungBestätigen/" method="POST" class = "modal-footer">
+                                    {% csrf_token %}
+                                    <input type="text" id="termin" name="termin", placeholder="DD.MM.YYYY">
+                                    <input type="hidden" value="{{i.id}}" name="id" id="id" />
+                                    <input type="submit" value="Bestätigen" />
+                                </form>
+
+                            </div>
+                            <div class="">
+                                <button type="button" src="/BestellungBestätigen/" class="btn btn-default" data-dismiss="modal">Bestätigen</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                {% endif  %}
+            </td>
+        </tr>
+
+
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock content %}

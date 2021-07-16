@@ -73,7 +73,12 @@ def logUserIn(request):
         print("User", user)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse('ueberblick_patient'))
+            if user.benutzerrolle.rolle_bezeichnung == "Arzt":
+                return HttpResponseRedirect(reverse('ueberblick_arzt'))
+            elif user.benutzerrolle.rolle_bezeichnung == "Patient":
+                return HttpResponseRedirect(reverse('ueberblick_patient'))
+            else:
+                return HttpResponseRedirect(reverse('ueberblick_apotheke'))
         else:
             from django.contrib.auth import get_user_model
             User = get_user_model()

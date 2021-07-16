@@ -1,7 +1,7 @@
 [
 {
- "model":"rest.Patient",
+ "model":"rest.Apotheke",
  "pk": "1",
- "fields": {"vorname": "Ullrich", "nachname": "Weber", "username": "ullrich123", "strasse": "Ringstrasse", "nr": "34", "plz":"37922", "ort": "Frankfurt"}
+ "fields": {"name": "arzneiFix", "username": "apo123", "strasse": "Wegstrasse", "nr": "12", "plz": "38922", "ort": "Karlsruhe"}
 }
 ]

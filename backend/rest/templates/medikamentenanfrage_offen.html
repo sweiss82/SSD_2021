@@ -19,14 +19,15 @@
     <tbody>
     {% for i in medikamentenbestellung %}
     <tr>
-        <td></td>
+        <td>{{ forloop.counter }}</td>
         <td>{{i.patient.nachname}}</td>
         <td>{{i.medikamentenname.medikamentenname}}</td>
         <td>{{i.menge}}</td>
         <td>{{i.dosierung}}</td>
         <td>
             <form action="/BestellungBestätigen/" method="POST">
-                <input type="hidden" name="id" id="id">{{i.id}}</input>
+                {% csrf_token %}
+                <input type="hidden" value="{{i.id}}" name="id" id="id" />
                 <input type="submit" value="Bestätigen" />
             </form>
         </td>

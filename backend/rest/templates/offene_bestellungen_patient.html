@@ -12,7 +12,9 @@
             <th scope="col">Nr.</th>
             <th scope="col">Medikament</th>
             <th scope="col">Menge</th>
+            <th scope="col">Dosierung</th>
             <th scope="col">Status</th>
+            <th scope="col">Liefertermin</th>
         </tr>
         </thead>
         <tbody>
@@ -21,7 +23,20 @@
             <td>{{ forloop.counter }}</td>
             <td>{{i.medikamentenname.medikamentenname}}</td>
             <td>{{i.menge}}</td>
+            <td>{{i.dosierung}}</td>
             <td>{{i.status}}</td>
+            {% if i.liefertermin %}
+                <td>{{i.liefertermin}}
+
+                    <form action="/iCalLaden/{{i.id}}/" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="iCal">
+                    </form>
+                </td>
+
+            {% else %}
+                <td>(wird abgeholt)</td>
+            {% endif %}
         </tr>
         {% endfor %}
         </tbody>

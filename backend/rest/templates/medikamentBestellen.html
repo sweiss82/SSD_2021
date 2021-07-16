@@ -11,8 +11,12 @@
         <form action="/medikamentenbestellung/" method="POST" style="...">
             {% csrf_token %}
             <div class="mb-3 col-sm-4">
-                <label for="medikamentenname" class="form-label">Medikamentenname</label>
-                    <input type="text" id="medikamentenname" class="form-control" name="medikamentenname">
+                <label for="medikamentenname">Medikamentenname</label>
+                <select multiple class="form-control" id="medikamentenname" name="medikamentenname">
+                    {% for i in medikamente %}
+                    <option>{{i.medikamentenname}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="mb-3 col-sm-4">
                 <label for="dosierung">Dosierung</label>
@@ -22,17 +26,25 @@
                 <label for="menge">Menge</label>
                     <input type="text" id="menge" class="form-control" name="menge">
             </div>
+            <div class="mb-3 col-sm-4">
+                <label for="apotheke">Apotheke</label>
+                <select multiple class="form-control" id="apotheke" name="apotheke">
+                    {% for i in apotheken %}
+                    <option>{{i.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-            <div class="mb-3 col-sm-4 " id="auswahl" name="auswahl">
+            <div class="mb-3 col-sm-4 ">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked="checked">
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <input class="form-check-input" type="radio" id="auswahl1" name="auswahl" value="True" checked="checked">
+                    <label class="form-check-label" for="auswahl1">
                         Abholung
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" id="auswahl2" name="auswahl" value="False">
+                    <label class="form-check-label" for="auswahl2">
                         Lieferung
                     </label>
                 </div>

@@ -1,7 +1,33 @@
-
 {% load static %}
-
+<link rel="stylesheet" href="{% static 'styles.css' %}">
 {% block content %}
-<h2>ddd</h2>
+<div class="container-sm col-sm-8 row justify-content-center">
+    <table class="table table-striped">
+<thead>
+<tr>
+    <th scope="col">Nr.</th>
+    <th scope="col">Vorname</th>
+    <th scope="col">Nachname</th>
+    <th scope="col">Strasse</th>
+    <th scope="col">Nr</th>
+    <th scope="col">PLZ</th>
+    <th scope="col">Ort</th>
+</tr>
+</thead>
+<tbody>
+{% for i in patienten %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{i.vorname}}</td>
+    <td>{{i.nachname}}</td>
+    <td>{{i.strasse}}</td>
+    <td>{{i.nr}}</td>
+    <td>{{i.plz}}</td>
+    <td>{{i.ort}}</td>
+</tr>
 
+</tbody>
+    </table>
+</div>
+{% endfor %}
 {% endblock content %}

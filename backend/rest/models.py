@@ -31,23 +31,36 @@ class Patient(models.Model):
     ort = models.CharField(max_length=10, unique=False, null=True)
     arzt = models.ForeignKey(Arzt, on_delete=models.CASCADE, null=True)
 
+class Apotheke(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, unique=False, null=True)
+    username = models.CharField(max_length=255, unique=False, null=True)
+    strasse = models.CharField(max_length=255, unique=False, null=True)
+    nr = models.CharField(max_length=10, unique=False, null=True)
+    plz = models.CharField(max_length=10, unique=False, null=True)
+    ort = models.CharField(max_length=10, unique=False, null=True)
+
 class BestellungStatus(Enum):
     OFFEN = "Offen"
     BESTÄTIGT = "Bestätigt"
     ABGELEHNT = "Abgelehnt"
+    ARCHIVIERT = "Archiviert"
 
 class Medikamentenbestellung(models.Model):
     id = models.AutoField(primary_key=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True)
     arzt = models.ForeignKey(Arzt, on_delete=models.CASCADE, null=True)
+    apotheke = models.ForeignKey(Apotheke, on_delete=models.CASCADE, null=True)
     medikamentenname = models.ForeignKey(Medikament, on_delete=models.CASCADE, null=True)
     menge = models.CharField(max_length=50, unique=False, null=True)
     dosierung = models.CharField(max_length=50, unique=False, null=True)
     wirdAbgeholt = models.BooleanField(null=True)
     status = models.CharField(max_length=50, unique=False, null=True)
+    liefertermin = models.DateField(auto_now=False, null=True)
 
-    def bearbeiten(self, status):
+    def bearbeiten(self, status, *args,  **kwargs):
         self.status = status
+        self.liefertermin = kwargs.get('liefertermin', None)
         self.save()
 
 class Medikamentenplan(models.Model):
