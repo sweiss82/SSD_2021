@@ -2,6 +2,7 @@ from django.conf.urls import url
 from . import views
 from django.urls import path
 import IAM.views
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('medikamentenbestellung/', views.medikamentBestellen, name='medikament bestellen'),
@@ -17,5 +18,6 @@ urlpatterns = [
     path('apotheke_ueberblick/', views.ueberblick_apotheke, name="ueberblick_apotheke"),
     path('iCalLaden/<int:bestell_id>/', views.iCalErstellen, name="iCalErstellen"),
     path('getUserData/<int:patient_id>/', views.getUserData, name="getUserData"),
-    path('', views.medikamentBestellen),
+    path('logout/', views.logout_view, name="logout_view"),
+    path('', RedirectView.as_view(url='login', permanent=False), name="redirectToLogin"),
 ]

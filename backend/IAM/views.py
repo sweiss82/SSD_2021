@@ -80,12 +80,7 @@ def logUserIn(request):
             else:
                 return HttpResponseRedirect(reverse('ueberblick_apotheke'))
         else:
-            from django.contrib.auth import get_user_model
-            User = get_user_model()
-            users = User.objects.all()
-            return render(request, 'register_response.html', {'users': users})
-             #return HttpResponse("<h2>Credentials invalid!</h2>")
-            #eturn render(request, 'LoginPage.html', {'error' : 'invalidData',})
+            return render(request, 'Krankenkasse_Login.html', {'error': 'invalidData'})
 def logUserIn2(request):
      return render(request, 'Krankenkasse_Login.html')
 

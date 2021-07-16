@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Medipation</title>
 </head>
 <body>
 
@@ -27,17 +27,17 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li {% if "/arzt_ueberblick/" in request.path %}class="active"{% endif %} >
                 <a class="nav-link" href="/arzt_ueberblick/">Überblick <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Regeln</a>
             </li>
-            <li class="nav-item">
+            <li {% if "/medikamentenanfrageOffen/" in request.path %}class="active"{% endif %}>
                 <a class="nav-link" href="/medikamentenanfrageOffen/">Anfragen</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Logout</a>
+                <a class="nav-link disabled" href="/logout">Logout</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">

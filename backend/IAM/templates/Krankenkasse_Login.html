@@ -8,14 +8,24 @@
     <div class="container-fluid">
         <form action="/login/" method="POST" style="...">
             {% csrf_token %}
-            <div class="mb-3 col-sm-4">
-                <label for="mitgliederkennung" class="form-label">Mitgliederkennung</label>
-                <input type="text" id="mitgliederkennung" name="mitgliederkennung">
+            <div class="mb-3 col-sm-4 ">
+                <label for="mitgliederkennung" class="col-sm2 col-form-label">Mitgliederkennung</label>
+                    <input type="text" id="mitgliederkennung" name="mitgliederkennung">
             </div>
             <div class="mb-3 col-sm-4">
-                <label for="passwort">Passwort</label>
+                <label for="passwort" class="col-form-label col-sm2">Passwort</label>
                 <input type="password" id="passwort" name="passwort">
             </div>
+            {% if error %}
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <small id="invalidData" class="text-danger">
+                            Benutzername und/oder Passwort sind ungültig!
+                        </small>
+
+                    </div>
+                </div>
+            {% endif %}
             <div class="mb-3 col-sm-4">
                 <input type="submit" class="btn btn-lg btn-primary" value="Anmelden">
             </div>
