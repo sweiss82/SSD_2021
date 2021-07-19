@@ -20,6 +20,7 @@
         <tbody>
         {% for i in bestellungen %}
         <tr>
+            {% if forloop.counter > 25 %}
             <td>{{ forloop.counter }}</td>
             <td>{{i.medikamentenname.medikamentenname}}</td>
             <td>{{i.menge}}</td>
@@ -36,6 +37,7 @@
 
             {% else %}
                 <td>(wird abgeholt)</td>
+            {% endif %}
             {% endif %}
         </tr>
         {% endfor %}

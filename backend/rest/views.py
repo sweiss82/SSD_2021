@@ -43,7 +43,7 @@ def medikamentBestellen(request):
             dosierung=dosierung, status=BestellungStatus.OFFEN.value, patient=patient, arzt=arzt, wirdAbgeholt=auswahl,
             apotheke=apotheke)
             bestellung.save()
-            return HttpResponse("<h2>Speichern erfolgreich!</h2>")
+            return HttpResponseRedirect(reverse('ueberblick_patient'))
         else:
             return HttpResponse("<h2>Ungültige Anfrage!</h2>")
     else:
@@ -132,21 +132,23 @@ def patientenliste_arzt(request):
 def ueberblick_arzt(request):
         if request.user.is_authenticated:
             try:
-                arzt = Arzt.objects.get(id=1)
+                arzt = Arzt.objects.get(username=request.user.benutzername)
                 patienten = Patient.objects.filter(arzt=arzt)
-            except arzt.DoesNotExist:
-                return HttpResponse("<h2>keine Arzt vorhanden!</h2>")
+            except Arzt.DoesNotExist:
+                return HttpResponseRedirect(reverse('login'))
             return render(request, 'ueberblick_arzt.html', {'arzt': arzt, 'patienten': patienten})
 
 def ueberblick_patient(request):
         if request.user.is_authenticated:
             try:
                 patient = Patient.objects.get(username=request.user.benutzername)
+                if patient is None:
+                    return HttpResponseRedirect(reverse('login'))
                 medikamentenplan_patient = Medikamentenplan.objects.get(patient=patient.id)
                 medikamentenplan = Medikamentenplan_Medikamente.objects.filter(medikamentenplan=medikamentenplan_patient.id)
                 bestellungen = Medikamentenbestellung.objects.filter(patient=patient)
-            except Medikamentenplan.DoesNotExist:
-                return HttpResponse("<h2>keine Medikamentenplan vorhanden!</h2>")
+            except Patient.DoesNotExist:
+                return HttpResponseRedirect(reverse('login'))
             return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient,
                 "bestellungen": bestellungen})
         else:

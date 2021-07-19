@@ -1,7 +1,7 @@
 [
 {
- "model":"rest.Apotheke",
- "pk": "1",
- "fields": {"name": "arzneiFix", "username": "apo123", "strasse": "Wegstrasse", "nr": "12", "plz": "38922", "ort": "Karlsruhe"}
+ "model":"rest.Medikamentenplan_Medikamente",
+ "pk": "4",
+ "fields": {"medikamentenplan": "1", "medikament": "3", "wochentag": "Dienstag", "uhrzeit": "8h", "menge": "2 Tabletten"}
 }
 ]

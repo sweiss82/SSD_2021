@@ -2,6 +2,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'styles.css' %}">
 {% block content %}
+<div class="col-xs-12" style="height:50px;"></div>
 <div class="container-sm col-sm-8 row justify-content-center">
     <table class="table table-striped">
         <thead>
@@ -37,12 +38,6 @@
         </tr>
         </tbody>
     </table>
-    <!--
-    <a href="serializejson" download="GFG">
-         <button type="button">Daten ausgeben</button>
-    </a>
-    das liefert direkt downloadfunktion, sieht aber hässlicher aus; muss mit funktion (json erstellen) verknüpft werden
-    -->
-    <input type="submit" class="btn btn-lg btn-primary" href="serializejson" value="Daten ausgeben">
+
 </div>
     {% endblock content %}
