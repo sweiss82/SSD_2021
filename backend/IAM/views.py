@@ -37,20 +37,17 @@ class UserCreationForm2View(View):
 
     def get(self, request):
         form = self.form_class(None)
-        #print("Formulardaten", form)
         return render(request, self.template_name, {'form':form})
 
     def post(self, request):
         form = self.form_class(data = request.POST)
-        print("form errors", form.errors)
+
         if form.is_valid():
            user = form.save(commit=False)
            benutzername=form.cleaned_data['benutzername']
            password = form.clean_password2()
            benutzerrolle=form.cleaned_data['benutzerrolle']
            user.set_password(password)
-           print("passwort", password)
-           print("benutzerrolle", benutzerrolle)
            user.benutzerrolle = Rolle.objects.get(pk=benutzerrolle)
            user.save()
            return HttpResponse("<h2>Registrierung erfolgreich!</h2>")
@@ -66,11 +63,8 @@ def logUserIn(request):
         return render(request, 'Login.html', {'krankenkassen': krankenkassen})
     if request.method == 'POST':
         username = request.POST.get('mitgliederkennung', None)
-        print("mitglied", username)
         password = request.POST.get('passwort', None)
-        print("pw", password)
         user = authenticate(request, username=username, password=password)
-        print("User", user)
         if user is not None:
             login(request, user)
             if user.benutzerrolle.rolle_bezeichnung == "Arzt":

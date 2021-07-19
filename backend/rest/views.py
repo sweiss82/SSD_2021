@@ -80,7 +80,6 @@ def medikamentenanfrageOffen(request):
         elif request.method == 'POST':
             bestellungID = request.POST.get('id', None)
             medikamentenbestellung = Medikamentenbestellung.objects.get(id=bestellungID)
-            print("nutzerrolle", request.user.benutzerrolle.rolle_bezeichnung)
             if request.user.benutzerrolle.rolle_bezeichnung == "Arzt":
                 try:
                     medikamentenbestellung.bearbeiten(status=BestellungStatus.BESTÄTIGT.value)
@@ -189,10 +188,9 @@ def offene_bestellungen_apotheke(request):
             apotheke = Apotheke.objects.get(username=request.user.benutzername)
             b_bestätigt = Medikamentenbestellung.objects.filter(apotheke=apotheke.id,
                                                                 status=BestellungStatus.BESTÄTIGT.value)
-            bestellungen = Medikamentenbestellung.objects.filter(apotheke=apotheke.id,
-                                                                 status=BestellungStatus.ARCHIVIERT)
-            # bestellungen = list(b_bestätigt,b_archiviert)
-            print("be", length(bestellungen))
+            b_archiviert = Medikamentenbestellung.objects.filter(apotheke=apotheke.id,
+                                                                 status=BestellungStatus.ARCHIVIERT.value)
+            bestellungen = list(b_bestätigt,b_archiviert)
         except Bestellungen.DoesNotExist:
             return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
         return render(request, 'offene_bestellungen_apotheke.html', {'bestellungen': bestellungen})
