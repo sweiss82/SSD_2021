@@ -1,35 +1,17 @@
-from django.shortcuts import render
-
-from django.shortcuts import render
-from rest import *
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
 from IAM.admin import UserCreationForm2
-#from IAM.models import MyUser, MyUserManager
-from rest import templates
-import rest
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from django.views.generic import View
-#from .admin import UserCreationForm2
-from django.shortcuts import HttpResponse
-from rest.models import Rolle
-from rest.models import Patient, Arzt, Rolle
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from rest.models import Patient, Arzt, Rolle
-from django.shortcuts import HttpResponse
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-from django.views import generic
+from django.shortcuts import HttpResponse
+from django.shortcuts import render
 from django.urls import reverse
-#from django.admin import *
-import datetime
-from django.contrib.auth.forms import AuthenticationForm
-from django import forms
+# from IAM.models import MyUser, MyUserManager
+from django.views.generic import View
+from rest import *
+# from django.admin import *
 from rest.models import Krankenkasse
+# from .admin import UserCreationForm2
+from rest.models import Rolle
+
 
 class UserCreationForm2View(View):
     form_class=UserCreationForm2

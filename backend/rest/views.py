@@ -1,25 +1,16 @@
-from django.shortcuts import render
-from .models import *
-from .serializer import *
-from rest_framework import generics
-
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions
-from .serializer import UserSerializer
-from django.shortcuts import HttpResponse
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 import datetime
-from icalendar import Calendar, Event
-from django.utils.encoding import smart_str
-from django.core.files.storage import default_storage
-from django.core.files.storage import FileSystemStorage
-from wsgiref.util import FileWrapper
-from django.http import FileResponse
-from django.core import serializers
+
 from django.contrib.auth import logout
+from django.core import serializers
+from django.http import FileResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
+from django.shortcuts import render
+from django.urls import reverse
+from icalendar import Calendar, Event
+
+from .serializer import *
 
 
 # Create your views here.
@@ -59,7 +50,7 @@ def medikamentenplanEinsehen(request):
             medikamentenplan = Medikamentenplan.objects.get(patient=1)
             return render(request, 'medikamentenplan.html', {'medikamentenplan': medikamentenplan})
         except Medikamentenplan.DoesNotExist:
-            return HttpResponse("<h2>keine Medikamentenplan vorhanden!</h2>")
+            return HttpResponse("<h2>kein Medikamentenplan vorhanden!</h2>")
 
 
 def medikamentenplanDetailsEinsehen(request):
@@ -142,29 +133,31 @@ def patientenliste_arzt(request):
 
 
 def ueberblick_arzt(request):
-        if request.user.is_authenticated:
-            try:
-                arzt = Arzt.objects.get(username=request.user.benutzername)
-                patienten = Patient.objects.filter(arzt=arzt)
-            except Arzt.DoesNotExist:
-                return HttpResponseRedirect(reverse('login'))
-            return render(request, 'ueberblick_arzt.html', {'arzt': arzt, 'patienten': patienten})
+    if request.user.is_authenticated:
+        try:
+            arzt = Arzt.objects.get(username=request.user.benutzername)
+            patienten = Patient.objects.filter(arzt=arzt)
+        except Arzt.DoesNotExist:
+            return HttpResponseRedirect(reverse('login'))
+        return render(request, 'ueberblick_arzt.html', {'arzt': arzt, 'patienten': patienten})
+
 
 def ueberblick_patient(request):
-        if request.user.is_authenticated:
-            try:
-                patient = Patient.objects.get(username=request.user.benutzername)
-                if patient is None:
-                    return HttpResponseRedirect(reverse('login'))
-                medikamentenplan_patient = Medikamentenplan.objects.get(patient=patient.id)
-                medikamentenplan = Medikamentenplan_Medikamente.objects.filter(medikamentenplan=medikamentenplan_patient.id)
-                bestellungen = Medikamentenbestellung.objects.filter(patient=patient)
-            except Patient.DoesNotExist:
+    if request.user.is_authenticated:
+        try:
+            patient = Patient.objects.get(username=request.user.benutzername)
+            if patient is None:
                 return HttpResponseRedirect(reverse('login'))
-            return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient,
-                "bestellungen": bestellungen})
-        else:
-            return render(request, 'fehlende_Authentifizierung.html' )
+            medikamentenplan_patient = Medikamentenplan.objects.get(patient=patient.id)
+            medikamentenplan = Medikamentenplan_Medikamente.objects.filter(medikamentenplan=medikamentenplan_patient.id)
+            bestellungen = Medikamentenbestellung.objects.filter(patient=patient)
+        except Patient.DoesNotExist:
+            return HttpResponseRedirect(reverse('login'))
+        return render(request, 'ueberblick_patient.html', {'medikamentenplan': medikamentenplan, 'patient': patient,
+                                                           "bestellungen": bestellungen})
+    else:
+        return render(request, 'fehlende_Authentifizierung.html')
+
 
 def ueberblick_apotheke(request):
     if request.user.is_authenticated:
@@ -190,7 +183,7 @@ def offene_bestellungen_apotheke(request):
                                                                 status=BestellungStatus.BESTÄTIGT.value)
             b_archiviert = Medikamentenbestellung.objects.filter(apotheke=apotheke.id,
                                                                  status=BestellungStatus.ARCHIVIERT.value)
-            bestellungen = list(b_bestätigt,b_archiviert)
+            bestellungen = list(b_bestätigt, b_archiviert)
         except Bestellungen.DoesNotExist:
             return HttpResponse("<h2>keine Bestellungen vorhanden!</h2>")
         return render(request, 'offene_bestellungen_apotheke.html', {'bestellungen': bestellungen})
@@ -210,6 +203,7 @@ def offene_bestellungen_patient(request):
 
 
 def iCalErstellen(request, bestell_id):
+    cal = Calendar()
     event = Event()
     bestellung = Medikamentenbestellung.objects.get(id=bestell_id)
 
@@ -220,8 +214,10 @@ def iCalErstellen(request, bestell_id):
     event.add('description', beschreibung)
     event.add('location', 'zu Hause')
 
+    cal.add_component(event)
+
     with open('liefertermin.ics', 'wb') as f:
-        f.write(event.to_ical())
+        f.write(cal.to_ical())
     f.close()
 
     response = FileResponse(open('liefertermin.ics', 'rb'))
@@ -243,7 +239,3 @@ def getUserData(request, patient_id):
 def logout_view(request):
     logout(request)
     return redirect('login')
-# todo: persönliche Daten ausgeben verknüpfen -> siehe getUserData()
-# def serializejson(obj):
-#    serialized_obj = serializers.serialize('json', [ obj, ])
-#   return serialized_obj

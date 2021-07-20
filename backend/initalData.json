@@ -1,7 +1,0 @@
-[
-{
- "model":"rest.Medikamentenplan_Medikamente",
- "pk": "4",
- "fields": {"medikamentenplan": "1", "medikament": "3", "wochentag": "Dienstag", "uhrzeit": "8h", "menge": "2 Tabletten"}
-}
-]

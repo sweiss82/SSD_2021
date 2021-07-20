@@ -1,0 +1,27 @@
+[
+{
+"model":"rest.Medikament",
+"pk": "1",
+"fields": {"medikamentenname": "Ibuprophen"}
+},
+{
+"model":"rest.Medikament",
+"pk": "2",
+"fields": {"medikamentenname": "Aspirin"}
+},
+{
+"model":"rest.Medikament",
+"pk": "3",
+"fields": {"medikamentenname": "IBANDRONATE Filmtabletten"}
+},
+{
+"model":"rest.Medikament",
+"pk": "4",
+"fields": {"medikamentenname": "Marcumar"}
+},
+{
+"model":"rest.Medikament",
+"pk": "5",
+"fields": {"medikamentenname": "TAMOXIFEN Tabletten"}
+}
+]
